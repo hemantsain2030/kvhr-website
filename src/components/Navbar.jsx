@@ -6,19 +6,11 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
-import Information from './components/Information';
-import Homepage from './components/Homepage';
 
-
-
-const App = ()=>{
-  return (
-      <BrowserRouter>
-       <div className='App'>
-         <>
-         <Navbar bg="light" expand="lg">
-         <Container fluid>
+function NavScroll (){
+    return (
+        <Navbar bg="light" expand="lg">
+        <Container fluid>
           <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -27,16 +19,16 @@ const App = ()=>{
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link as={Link} to='/'>Home</Nav.Link>
-              <Nav.Link as={Link} to='/about'>About us</Nav.Link>
-              <NavDropdown title="Login" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Head Login</NavDropdown.Item>
+              <Nav.Link href="#action1" to='/'>Home</Nav.Link>
+              <Nav.Link href="#action2" to='/about'>Link</Nav.Link>
+              <NavDropdown title="Link" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
-                  Management Login
+                  Another action
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">
-                  Recruiter Login
+                  Something else here
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" disabled>
@@ -55,17 +47,8 @@ const App = ()=>{
           </Navbar.Collapse>
         </Container>
       </Navbar>
-         </>
-         <div>
-          <Routes>
-            <Route path='/about' element={<Information />}/>
-            <Route path='/' element={<Homepage />}/>
-          </Routes>
-         </div>
-       </div>
-      </BrowserRouter> 
-     
-  );
+    );
 };
 
-export default App;
+
+export default NavScroll;
