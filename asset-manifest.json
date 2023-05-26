@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/kvhr-website/static/css/main.44f8b8b5.css",
+    "main.js": "/kvhr-website/static/js/main.cb99eadc.js",
+    "index.html": "/kvhr-website/index.html",
+    "main.44f8b8b5.css.map": "/kvhr-website/static/css/main.44f8b8b5.css.map",
+    "main.cb99eadc.js.map": "/kvhr-website/static/js/main.cb99eadc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.44f8b8b5.css",
+    "static/js/main.cb99eadc.js"
+  ]
+}
