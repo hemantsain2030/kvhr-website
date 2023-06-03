@@ -9,6 +9,16 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
 import Information from './components/Information';
 import Homepage from './components/Homepage';
+import HeadReg from './components/RegistrationPages/HeadReg';
+import ManageReg from './components/RegistrationPages/ManagementReg';
+import RecruiteReg from './components/RegistrationPages/RecruiterReg';
+import HeadLogin from './components/LoginForms/HeadLogin';
+import ManagementLogin from './components/LoginForms/ManagementLogin';
+import RecruiterLogin from './components/LoginForms/RecruiterLogin';
+import CandidateReg from './components/RegistrationPages/CandidateReg';
+import CandidateLogin from './components/LoginForms/CandidateLogin';
+import ClientReg from './components/RegistrationPages/ClientReg';
+import ClientLogin from './components/LoginForms/ClientLogin';
 
 
 
@@ -29,14 +39,34 @@ const App = ()=>{
             >
               <Nav.Link as={Link} to='/'>Home</Nav.Link>
               <Nav.Link as={Link} to='/about'>About us</Nav.Link>
+              <NavDropdown title="Register" id="navbarScrollingDropdown">
+                <NavDropdown.Item as={Link} to='/head'>Head</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/management'>
+                  Management
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/recruiteReg'>
+                  Recruiter
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/candidateReg'>
+                  Candidate
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/clientReg'>
+                  Client
+                </NavDropdown.Item>
+              </NavDropdown>
               <NavDropdown title="Login" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Head Login</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
+                <NavDropdown.Item as={Link} to='/headLogin' >Head Login</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/managementLogin'>
                   Management Login
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
+                <NavDropdown.Item as={Link} to='/recruiterLogin'>
                   Recruiter Login
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/candidateLogin'>
+                  Candidate Login
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/clientLogin'>
+                  Client Login
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" disabled>
@@ -60,6 +90,16 @@ const App = ()=>{
           <Routes>
             <Route path='/about' element={<Information />}/>
             <Route path='/' element={<Homepage />}/>
+            <Route path='/head' element={<HeadReg />}/>
+            <Route path='/management' element={<ManageReg />}/>
+            <Route path='/recruiteReg' element={<RecruiteReg />}/>
+            <Route path='/candidateReg' element={<CandidateReg />}/>
+            <Route path='/clientReg' element={<ClientReg />}/>
+            <Route path='/headLogin' element={<HeadLogin />}/>
+            <Route path='/managementLogin' element={<ManagementLogin />}/>
+            <Route path='/recruiterLogin' element={<RecruiterLogin />}/>
+            <Route path='/candidateLogin' element={<CandidateLogin />}/>
+            <Route path='/clientLogin' element={<ClientLogin />}/>
           </Routes>
          </div>
        </div>
