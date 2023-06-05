@@ -1,12 +1,12 @@
 import React from 'react';
 import 'D:/KVHR/organizationwebsite/node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
+// import Button from 'react-bootstrap/Button';
+// import Container from 'react-bootstrap/Container';
+// import Form from 'react-bootstrap/Form';
+// import Nav from 'react-bootstrap/Nav';
+// import Navbar from 'react-bootstrap/Navbar';
+// import NavDropdown from 'react-bootstrap/NavDropdown';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Information from './components/Information';
 import Homepage from './components/Homepage';
 import HeadReg from './components/RegistrationPages/HeadReg';
@@ -19,14 +19,34 @@ import CandidateReg from './components/RegistrationPages/CandidateReg';
 import CandidateLogin from './components/LoginForms/CandidateLogin';
 import ClientReg from './components/RegistrationPages/ClientReg';
 import ClientLogin from './components/LoginForms/ClientLogin';
+import { ThemeProvider } from 'styled-components';
+import Header from './components/Header';
 
 
 
 const App = ()=>{
+
+  const theme = {
+    colors: {
+      heading: "rgb(24,24,29)",
+      text: "rgb(24,24,29)",
+      white:"#fff",
+      black: "#212529",
+      helper: "#8490ff",
+      bg: "rgb(249 249 255)",
+      footer_bg: "#0a1435",
+      btn: "rgba(98, 84, 243, 0.5)",
+      border: "rgba(98, 84, 243, 0.5)",
+      hr: "#ffffff",
+      
+    }
+  }
+
   return (
+    <ThemeProvider theme={theme}>
       <BrowserRouter>
        <div className='App'>
-         <>
+         {/* <>
          <Navbar bg="light" expand="lg">
          <Container fluid>
           <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
@@ -85,8 +105,9 @@ const App = ()=>{
           </Navbar.Collapse>
         </Container>
       </Navbar>
-         </>
+         </> */}
          <div>
+          <Header/>
           <Routes>
             <Route path='/about' element={<Information />}/>
             <Route path='/' element={<Homepage />}/>
@@ -104,6 +125,7 @@ const App = ()=>{
          </div>
        </div>
       </BrowserRouter> 
+    </ThemeProvider>  
      
   );
 };
