@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
   return (
     <>
+    
     <Navbar bg="light" expand="lg">
     <Container fluid>
      <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
