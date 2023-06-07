@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/kvhr-website/static/css/main.44f8b8b5.css",
-    "main.js": "/kvhr-website/static/js/main.cb99eadc.js",
+    "main.js": "/kvhr-website/static/js/main.5423d155.js",
     "index.html": "/kvhr-website/index.html",
     "main.44f8b8b5.css.map": "/kvhr-website/static/css/main.44f8b8b5.css.map",
-    "main.cb99eadc.js.map": "/kvhr-website/static/js/main.cb99eadc.js.map"
+    "main.5423d155.js.map": "/kvhr-website/static/js/main.5423d155.js.map"
   },
   "entrypoints": [
     "static/css/main.44f8b8b5.css",
-    "static/js/main.cb99eadc.js"
+    "static/js/main.5423d155.js"
   ]
 }
