@@ -1,11 +1,15 @@
 import React from "react";
+import ResponsiveDrawer from "./Pages/Dashboard";
+import Candidate from "./Pages/Candidate";
 
 
 
 const Information = ()=>{
     return (
         <>
-           <h1>This is About us page!</h1>
+           
+           <ResponsiveDrawer />
+           <Candidate />
         </>
     );
 };
