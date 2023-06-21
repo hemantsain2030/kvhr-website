@@ -15,6 +15,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -30,11 +33,105 @@ function Copyright(props) {
 }
 
 export default function HeadLogin() {
+  
+  const navigate = useNavigate();
+  const [form, setForm]= useState({})
+  const [error,setError]=useState();
+
+  const handleForm= (e) =>{
+    console.log(e.target.value, e.target.name)
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // const data = new FormData(e.currentTarget);
+    // console.log(data)
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    await axios.post('http://127.0.0.1:3000/headLogin',{form})
+    .then(async function (response) {
+      // handle success
+      var _message = await response.data.Success;
+      var text="";
+      text=JSON.stringify(_message)
+      if  (text == "Login successful"){
+        navigate('/headPage')
+      }
+      setError(text)
+      console.log(response.data.Success);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  };
+
+  // const emailRef = useRef();
+  // const passwordRef = useRef();
+  
+  // const { signup } = useAuth();
+  // const [error, setError] = useState('');
+  // const [loading, setLoading] = useState(false);
+
+  // async function handleSubmit(e){
+  //   e.prevenDefault();
+
+  //   if(passwordRef.current.value !== 
+  //     passwordConfirmRef.current.value){
+  //       return setError('Passwords do not match')
+  //     }
+
+  //     try{
+  //       setError('')
+  //       setLoading(true)
+  //       await signup(emailRef.current.value, passwordRef.current.value)
+  //     }catch{
+  //       setError("Failed to create an account")
+  //     }
+  //     setLoading(false);
+    
+  // }
 
   const defaultTheme = createTheme();
 
+  // // const handleSubmit = (event) => {
+  // //   event.preventDefault();
+  // //   const data = new FormData(event.currentTarget);
+  // //   console.log({
+  // //     email: data.get('email'),
+  // //     password: data.get('password'),
+  //   });
   return (
     <>
+      {/* <Card>
+        <Card.Body>
+          <h2 className='text-center mb-4'>Head Login</h2>
+          <Form>
+            <Form.Group id='email'>
+              <Form.Label>Email</Form.Label>
+              <Form.Control type='email' ref={emailRef} required />
+            </Form.Group>
+            <Form.Group id='password'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control type='Password' ref={passwordRef} required />
+            </Form.Group>
+            <Button className='w-100' type='submit'>Login</Button>
+          </Form>
+        </Card.Body>
+      </Card>
+      <div className='w-100 text-center mt-2'>
+        Don't have an account? Sign up
+      </div> */}
+
 <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -48,11 +145,11 @@ export default function HeadLogin() {
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
-          </Avatar> 
+          </Avatar>
           <Typography component="h1" variant="h5">
             Head Login
           </Typography>
-          <Box component="form"  noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -60,6 +157,7 @@ export default function HeadLogin() {
               id="email"
               label="Email Address"
               name="email"
+              onChange={handleForm}
               autoComplete="email"
               autoFocus
             />
@@ -67,6 +165,7 @@ export default function HeadLogin() {
               margin="normal"
               required
               fullWidth
+              onChange={handleForm}
               name="password"
               label="Password"
               type="password"
@@ -77,11 +176,13 @@ export default function HeadLogin() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error?<p>{error}</p>:null}  
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onSubmit={handleSubmit}
             >
               Sign In
             </Button>
@@ -99,6 +200,7 @@ export default function HeadLogin() {
             </Grid>
           </Box>
         </Box>
+        <button visibility="hidden" link ></button>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>

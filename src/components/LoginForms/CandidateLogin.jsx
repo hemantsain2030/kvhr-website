@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -31,12 +35,46 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+
+  const navigate = useNavigate();
+  const [form, setForm]= useState({})
+  const [error,setError]=useState();
+
+  const handleForm= (e) =>{
+    console.log(e.target.value, e.target.name)
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // const data = new FormData(e.currentTarget);
+    // console.log(data)
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    await axios.post('http://127.0.0.1:3000/candidateLogin',{form})
+    .then(async function (response) {
+      // handle success
+      var _message = await response.data.Success;
+      var text="";
+      text=JSON.stringify(_message)
+      console.log(text)
+      if  (text === "\"Login successful\""){
+        navigate('/candidatePage')
+      }
+      setError(text)
+      console.log(response.data.Success);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
     });
   };
 
@@ -68,9 +106,11 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-            />
+              onChange={handleForm}
+              />
             <TextField
               margin="normal"
+              onChange={handleForm}
               required
               fullWidth
               name="password"
@@ -83,11 +123,13 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error?<p>{error}</p>:null} 
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onSubmit={handleSubmit}
             >
               Log In
             </Button>
@@ -98,7 +140,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/candidateReg" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
