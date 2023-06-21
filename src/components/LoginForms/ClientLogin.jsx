@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -30,13 +33,46 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+export default function ClientLogin() {
+
+  const navigate = useNavigate();
+  const [form, setForm]= useState({})
+  const [error,setError]=useState();
+
+  const handleForm= (e) =>{
+    console.log(e.target.value, e.target.name)
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // const data = new FormData(e.currentTarget);
+    // console.log(data)
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    await axios.post('http://127.0.0.1:3000/clientLogin',{form})
+    .then(async function (response) {
+      // handle success
+      var _message = await response.data.Success;
+      var text="";
+      text=JSON.stringify(_message)
+      if  (text === "\"Login successful\""){
+        navigate('/clientPage')
+      }
+      setError(text)
+      console.log(response.data.Success);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
     });
   };
 
@@ -63,6 +99,7 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
+              onChange={handleForm}
               id="email"
               label="Email Address"
               name="email"
@@ -71,6 +108,7 @@ export default function SignIn() {
             />
             <TextField
               margin="normal"
+              onChange={handleForm}
               required
               fullWidth
               name="password"
@@ -83,6 +121,7 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error?<p>{error}</p>:null}  
             <Button
               type="submit"
               fullWidth

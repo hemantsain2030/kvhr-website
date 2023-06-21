@@ -1,51 +1,67 @@
-import React, {useRef} from 'react';
+import React, {useRef,useState} from 'react';
+import axios from 'axios';
 import {Form, Button, Card} from 'react-bootstrap';
 // import { useAuth } from '../../context/AuthContext';
 
 export default function CandidateReg() {
+  var text=""
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  // const { signup } = useAuth();
-  // const [error, setError] = useState('');
-  // const [loading, setLoading] = useState(false);
+  // console.log(emailRef)
+  const [error,setError]=useState();
 
-  // async function handleSubmit(e){
-  //   e.prevenDefault();
+  const [form, setForm]= useState({})
 
-  //   if(passwordRef.current.value !== 
-  //     passwordConfirmRef.current.value){
-  //       return setError('Passwords do not match')
-  //     }
+  const handleForm= (e) =>{
+    // console.log(e.target.value, e.target.name)
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
 
-  //     try{
-  //       setError('')
-  //       setLoading(true)
-  //       await signup(emailRef.current.value, passwordRef.current.value)
-  //     }catch{
-  //       setError("Failed to create an account")
-  //     }
-  //     setLoading(false);
-    
-  // }
+  const handleSubmit = async(e)=>{
+    e.preventDefault( )
+    await axios.post('http://127.0.0.1:3000/candidateReg',{form})
+    .then(async function (response) {
+      // handle success
+      var _message = await response.data.Success;
+      text="";
+      text=JSON.stringify(_message)
+      setError(text)
+      console.log(response.data.Success);
+      // console.log(response.data);
+    })
+    .catch(function (error) {
+      
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+    // console.log(form)
+  } ;
   return (
     <>
       <Card>
+        <p></p>
         <Card.Body>
           <h2 className='text-center mb-4'>Register as Candidate</h2>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group id='email'>
               <Form.Label>Email</Form.Label>
-              <Form.Control type='email' ref={emailRef} required />
+              <Form.Control type='email' ref={emailRef} required name ="email" onChange={handleForm} />
             </Form.Group>
             <Form.Group id='password'>
               <Form.Label>Password</Form.Label>
-              <Form.Control type='Password' ref={passwordRef} required />
+              <Form.Control type='Password' ref={passwordRef} required name ="password" onChange={handleForm}/>
             </Form.Group>
             <Form.Group id='password-confirm'>
               <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type='password' ref={passwordConfirmRef} required />
+              <Form.Control type='password' ref={passwordConfirmRef} required name ="confirm_password" onChange={handleForm} />
             </Form.Group>
+            {error?<p>{error}</p>:null}  
             <Button className='w-100' type='submit'>Sign Up</Button>
           </Form>
         </Card.Body>
