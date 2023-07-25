@@ -2,7 +2,7 @@ import {Form, Button, Card} from 'react-bootstrap';
 import axios from 'axios';
 import React, {useRef,useState} from 'react';
 // import { useAuth } from '../../context/AuthContext';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 export default function RecruiteReg() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -44,7 +44,7 @@ export default function RecruiteReg() {
 
   const handleSubmit = async(e)=>{
     e.preventDefault( )
-    await axios.post('http://127.0.0.1:3000/recruiterReg',{form})
+    await axios.post(`${BaseUrl}/recruiterReg`,{form})
     .then(async function (response) {
       // handle success
       var _message = await response.data.Success;

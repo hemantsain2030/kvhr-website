@@ -18,7 +18,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-
+var bcrypt = require('bcryptjs');
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,12 +33,25 @@ function Copyright(props) {
   );
 }
 
+const sessionValue=async (sid,svalue)=>{
+  if (!(isNaN(svalue)))
+  {
+    // console.log("hi")
+    svalue=svalue.toString()
+  }
+  const value = await bcrypt.hash(svalue, 10);
+  await console.log(value)
+  await sessionStorage.setItem(sid,value)
+  // return value
+}
+
+
 export default function HeadLogin() {
   
   const navigate = useNavigate();
   const [form, setForm]= useState({})
   const [error,setError]=useState();
-
+  
   const handleForm= (e) =>{
     console.log(e.target.value, e.target.name)
     setForm({
@@ -45,23 +59,29 @@ export default function HeadLogin() {
       [e.target.name] : e.target.value
     })
   }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     // const data = new FormData(e.currentTarget);
     // console.log(data)
     // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
-    await axios.post('http://127.0.0.1:3000/headLogin',{form})
-    .then(async function (response) {
-      // handle success
-      var _message = await response.data.Success;
-      var text="";
-      text=JSON.stringify(_message)
-      if  (text == "Login successful"){
-        navigate('/headPage')
+      //   email: data.get('email'),
+      //   password: data.get('password'),
+      // });
+      await axios.post(`${BaseUrl}/headLogin`,{form})
+      .then(async function (response  ) {
+        // handle success
+        var _message = await response.data.Success;
+        var text="";
+        text=JSON.stringify(_message)
+      console.log(response.data.userId)
+      //param1 is user
+      //param2 is userId
+      await sessionValue('param1',"admin")
+      await sessionValue("param2",response.data.userId)
+      sessionStorage.setItem("userId",response.data.userId)
+      if  (text === "\"Login successful\""){
+        navigate('/admin')
       }
       setError(text)
       console.log(response.data.Success);

@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 
 function Copyright(props) {
   return (
@@ -56,17 +56,19 @@ export default function SignIn() {
     //   email: data.get('email'),
     //   password: data.get('password'),
     // });
-    await axios.post('http://127.0.0.1:3000/managementLogin',{form})
+    await axios.post(`${BaseUrl}/login/manager`,{form})
     .then(async function (response) {
       // handle success
       var _message = await response.data.Success;
       var text="";
       text=JSON.stringify(_message)
       if  (text === "\"Login successful\""){
-        navigate('/managementPage')
+        // sessionStorage.setItem("company_name",JSON.stringify(response.data.company_name))
+        sessionStorage.setItem("userType","manager")
+        console.log(response.data)
+        sessionStorage.setItem("userId",response.data.userID)
+        navigate('/manager')
       }
-      setError(text)
-      console.log(response.data.Success);
     })
     .catch(function (error) {
       // handle error

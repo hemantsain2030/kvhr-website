@@ -1,5 +1,5 @@
 import React from 'react';
-import 'D:/KVHR/organizationwebsite/node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -9,24 +9,25 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
-  return (
-    <>
+  
+return (
+  <>
     
-    <Navbar bg="light" expand="lg">
+    <Navbar className="navbar" bg="primary" expand="lg" >
     <Container fluid>
-     <Navbar.Brand href="#">KVHR</Navbar.Brand>
+     <Navbar.Brand >KVHR</Navbar.Brand>
      <Navbar.Toggle aria-controls="navbarScroll" />
      <Navbar.Collapse id="navbarScroll">
        <Nav
-         className="me-auto my-2 my-lg-0"
+         className="me-auto my-2 my-lg-0 m-5"
          style={{ maxHeight: '100px' }}
          navbarScroll
        >
-         <Nav.Link as={Link} to='/'>Home</Nav.Link>
+         <Nav.Link as={Link} to='/' >Home</Nav.Link>
          <Nav.Link as={Link} to='/about'>About us</Nav.Link>
          <NavDropdown title="Register" id="navbarScrollingDropdown">
-           <NavDropdown.Item as={Link} to='/head'>Head</NavDropdown.Item>
-           <NavDropdown.Item as={Link} to='/management'>
+           <NavDropdown.Item as={Link} to='/headReg'>Head</NavDropdown.Item>
+           <NavDropdown.Item as={Link} to='/managementReg'>
              Management
            </NavDropdown.Item>
            <NavDropdown.Item as={Link} to='/recruiteReg'>
@@ -41,22 +42,19 @@ const NavBar = () => {
          </NavDropdown>
          <NavDropdown title="Login" id="navbarScrollingDropdown">
            <NavDropdown.Item as={Link} to='/headLogin' >Head Login</NavDropdown.Item>
-           <NavDropdown.Item as={Link} to='/managementLogin'>
-             Management Login
-           </NavDropdown.Item>
            <NavDropdown.Item as={Link} to='/recruiterLogin'>
              Recruiter Login
            </NavDropdown.Item>
            <NavDropdown.Item as={Link} to='/candidateLogin'>
              Candidate Login
            </NavDropdown.Item>
+           <NavDropdown.Item as={Link} to='/managementLogin'>
+             Management Login
+           </NavDropdown.Item>
            <NavDropdown.Item as={Link} to='/clientLogin'>
              Client Login
            </NavDropdown.Item>
          </NavDropdown>
-         <Nav.Link href="#" disabled>
-           Link
-         </Nav.Link>
        </Nav>
        <Form className="d-flex">
          <Form.Control

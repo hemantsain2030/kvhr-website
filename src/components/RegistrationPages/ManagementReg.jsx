@@ -2,7 +2,7 @@ import {Form, Button, Card} from 'react-bootstrap';
 import React, {useRef,useState} from 'react';
 import axios from 'axios';
 // import { useAuth } from '../../context/AuthContext';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 export default function ManageReg() {
   const emailRef = useRef();
   var text=""
@@ -44,7 +44,7 @@ export default function ManageReg() {
 
   const handleSubmit = async(e)=>{
     e.preventDefault( )
-    await axios.post('http://127.0.0.1:3000/managementReg',{form})
+    await axios.post(`${BaseUrl}/managementReg`,{form})
     .then(async function (response) {
       // handle success
       var _message = await response.data.Success;

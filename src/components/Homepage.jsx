@@ -1,55 +1,54 @@
-import React from 'react';
-// import { Container } from 'react-bootstrap';
-// import { AuthProvider } from '../context/AuthContext';
-// import { Container } from 'react-bootstrap';
-// import Sidebar from './Sidebar';
-// import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-// import 'react-pro-sidebar/dist/styles/StyledUl';
-// import {FaGem, FaHeart} from '@mui/icons-material';
-// import SideBarItems from './Sidebar/SideBarItems';
-// import Search from './SearchDiv/Search';
-// import Footer from './Footer';
-// import Sidebar from './Sidebar';
-import ResponsiveDrawer from './Pages/Dashboard';
-import './Styles/App.css';
-// import { BrowserRouter } from 'react-router-dom';
-import Manager from './Pages/Manager';
+import React, { useState } from 'react';
 
+function Homepage() {
+  const [selectedItem, setSelectedItem] = useState('');
+  const [dynamicField, setDynamicField] = useState('');
 
-const Homepage = ()=>{
+  const handleItemChange = (event) => {
+    setSelectedItem(event.target.value);
+  };
 
-    return (
-        <>
-        
-        {/* <Container className='d-flex align-items-center 
-          justifiy-content-center'
-          style={{minHeight:"100vh" }}> */}
-            {/* <div className='w-100' style={{maxWidth: "400px"}}>
-              
-              <h1>This is Homepage!</h1>
-            </div>   */}
-          {/* </Container>   */}
-          <ResponsiveDrawer />
-          {/* <h1 className='home'>Homepage</h1> */}
-          <Manager />
-          
-        
-        {/* <Search />
-        <Footer/> */}
-        
+  const handleDynamicFieldChange = (event) => {
+    setDynamicField(event.target.value);
+  };
 
+  const renderDynamicField = () => {
+    if (selectedItem === 'option1') {
+      return (
+        <div>
+          <label>
+            EnterLocation
+          </label>
+        <input
+          type="text"
+          value={dynamicField}
+          onChange={handleDynamicFieldChange}
+          placeholder="Enter option 1 details"
+          />
+          </div>
+      );
+    } else if (selectedItem === 'option2') {
+      // Render another type of field for option 2
+    } else if (selectedItem === 'option3') {
+      // Render another type of field for option 3
+    }
 
+    return null;
+  };
 
-          
-          
-        
-         
-        </>
-    );
-};
+  return (
+    <form>
+      <label htmlFor="item">Select an item:</label>
+      <select id="item" value={selectedItem} onChange={handleItemChange}>
+        <option value="">Select</option>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
 
+      {renderDynamicField()}
+    </form>
+  );
+}
 
 export default Homepage;
-
-
-

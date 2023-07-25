@@ -1,6 +1,6 @@
 import React  from "react";
 import {AiOutlineCloseCircle, AiOutlineSearch} from 'react-icons/ai';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 const Search = ()=>{
     return (
         <div className="searchDiv grid gp-10 bg-greyIsh rounded-[10px] p-[3rem]">

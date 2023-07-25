@@ -14,8 +14,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css' 
+import { confirmAlert } from 'react-confirm-alert'; //
 import {useNavigate} from 'react-router-dom';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -55,19 +57,39 @@ export default function SignIn() {
     //   email: data.get('email'),
     //   password: data.get('password'),
     // });
-    await axios.post('http://127.0.0.1:3000/recruiterLogin',{form})
+    await axios.post(`${BaseUrl}/login/recruiter`,{form})
     .then(async function (response) {
       // handle success
-      var _message = await response.data.Success;
+      var _message = await response.data.Success; 
       var text="";
-      var username= await response.data.username
       text=JSON.stringify(_message)
       if  (text === "\"Login successful\""){
-        // navigate('/recruiterPage')
-        localStorage.setItem('user', username);
+        // sessionStorage.setItem("company_name",JSON.stringify(response.data.company_name))
+        sessionStorage.setItem("userType","recruiter")
+        console.log(response.data)
+        sessionStorage.setItem("userId",response.data.userID)
+        navigate('/recruiter')
       }
-      setError(text)
-      console.log(username);
+      else{
+        const submit = () => {
+          confirmAlert({
+            title: 'Invalid login',
+            message: text,
+            buttons: [
+              {
+                label: 'OK',
+                onClick: () => {
+                  sessionStorage.clear()
+                  navigate('/recruiterLogin')
+                }
+              }
+            ]
+          })
+        };
+        submit()
+
+      }
+      console.log(response.data.Success);
     })
     .catch(function (error) {
       // handle error
@@ -77,7 +99,6 @@ export default function SignIn() {
       // always executed
     });
   };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

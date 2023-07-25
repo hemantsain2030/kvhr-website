@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,7 +14,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css' 
+import { confirmAlert } from 'react-confirm-alert'; //
 import {useNavigate} from 'react-router-dom';
+import $ from "jquery"
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 
 function Copyright(props) {
   return (
@@ -56,17 +59,38 @@ export default function SignIn() {
     //   email: data.get('email'),
     //   password: data.get('password'),
     // });
-    await axios.post('http://127.0.0.1:3000/candidateLogin',{form})
+    await axios.post(`${BaseUrl}/login/candidate`,{form})
     .then(async function (response) {
       // handle success
-      var _message = await response.data.Success;
+      var _message = await response.data.Success; 
       var text="";
       text=JSON.stringify(_message)
-      console.log(text)
       if  (text === "\"Login successful\""){
-        navigate('/candidatePage')
+        // sessionStorage.setItem("company_name",JSON.stringify(response.data.company_name))
+        sessionStorage.setItem("userType","candidate")
+        console.log(response.data)
+        sessionStorage.setItem("userId",response.data.userID)
+        navigate('/candidate')
       }
-      setError(text)
+      else{
+        const submit = () => {
+          confirmAlert({
+            title: 'Invalid login',
+            message: text,
+            buttons: [
+              {
+                label: 'OK',
+                onClick: () => {
+                  sessionStorage.clear()
+                  navigate('/candidateLogin')
+                }
+              }
+            ]
+          })
+        };
+        submit()
+
+      }
       console.log(response.data.Success);
     })
     .catch(function (error) {

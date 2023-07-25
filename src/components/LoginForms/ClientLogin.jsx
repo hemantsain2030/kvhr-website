@@ -14,8 +14,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
+import 'react-confirm-alert/src/react-confirm-alert.css' 
+import { confirmAlert } from 'react-confirm-alert'; //
 import {useNavigate} from 'react-router-dom';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,7 +36,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function ClientLogin() {
-
+  
   const navigate = useNavigate();
   const [form, setForm]= useState({})
   const [error,setError]=useState();
@@ -55,16 +57,39 @@ export default function ClientLogin() {
     //   email: data.get('email'),
     //   password: data.get('password'),
     // });
-    await axios.post('http://127.0.0.1:3000/clientLogin',{form})
+    await axios.post(`${BaseUrl}/login/client`,{form})
     .then(async function (response) {
       // handle success
-      var _message = await response.data.Success;
+      var _message = await response.data.Success; 
       var text="";
       text=JSON.stringify(_message)
       if  (text === "\"Login successful\""){
-        navigate('/clientPage')
+        sessionStorage.setItem("company_name",JSON.stringify(response.data.company_name))
+        sessionStorage.setItem("userType","client")
+        console.log(response.data)
+        sessionStorage.setItem("userId",response.data.userID)
+        navigate('/client')
       }
-      setError(text)
+      else{
+        const submit = () => {
+          confirmAlert({
+            title: 'Invalid login',
+            message: text,
+            buttons: [
+              {
+                label: 'OK',
+                onClick: () => {
+                  sessionStorage.clear()
+                  navigate('/clientLogin')
+                }
+              }
+            ]
+          })
+        };
+        submit()
+
+      }
+      // setError(text)
       console.log(response.data.Success);
     })
     .catch(function (error) {

@@ -2,10 +2,11 @@ import React, {useRef,useState} from 'react';
 import axios from 'axios';
 import {Form, Button, Card} from 'react-bootstrap';
 // import { useAuth } from '../../context/AuthContext';
-
+const BaseUrl= process.env.BaseUrl || "http://127.0.0.1:3000"
 export default function ClientReg() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const company_name = useRef();
   var text=""
   const passwordConfirmRef = useRef();
   // const { signup } = useAuth();
@@ -44,7 +45,7 @@ export default function ClientReg() {
 
   const handleSubmit = async(e)=>{
     e.preventDefault( )
-    await axios.post('http://127.0.0.1:3000/clientReg',{form})
+    await axios.post(`${BaseUrl}/clientReg`,{form})
     .then(async function (response) {
       // handle success
       var _message = await response.data.Success;
@@ -72,6 +73,10 @@ export default function ClientReg() {
           <Form.Group id='email'>
               <Form.Label>Email</Form.Label>
               <Form.Control type='email' ref={emailRef} required name ="email" onChange={handleForm} />
+            </Form.Group>
+          <Form.Group id='company_name'>
+              <Form.Label>Company Name</Form.Label>
+              <Form.Control type='text' ref={company_name} required name ="company_name" onChange={handleForm} />
             </Form.Group>
             <Form.Group id='password'>
               <Form.Label>Password</Form.Label>
